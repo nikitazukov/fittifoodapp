@@ -1,5 +1,6 @@
 package com.example.foodtrackingapp.produktliste;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 
@@ -86,8 +87,8 @@ public class ProduktlisteActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                startActivity(new Intent(getApplicationContext(), InputActivity.class));
+
             }
         });
     }

@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //Toast.makeText(MainActivity.this,"Produkt wird hinzugefügt.",Toast.LENGTH_LONG).show();
 
-               addPruduktToPruduktliste("Nüsse", 60, 1, 1, 350, getContext());
+               addPruduktToPruduktliste("Nüsse", 60, 1, 1, 350, getApplicationContext());
 
             }
         });
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         gotTo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getContext(), ProduktlisteActivity.class));
+                startActivity(new Intent(getApplicationContext(), ProduktlisteActivity.class));
             }
         });
 
@@ -102,11 +102,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public Context getContext(){
-        Context context = getApplicationContext();
-        return context;
     }
 
 }
