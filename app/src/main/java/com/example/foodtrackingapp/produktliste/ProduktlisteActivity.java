@@ -17,7 +17,6 @@ import android.view.View;
 
 import com.example.foodtrackingapp.R;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,7 +77,7 @@ public class ProduktlisteActivity extends AppCompatActivity {
 */
 
         // specify an adapter (see also next example)
-        mAdapter = new MyAdapter(id, produktname, protein, kohlenhydrate, fett, kcal);
+        mAdapter = new MyAdapter(id, produktname, protein, kohlenhydrate, fett, kcal, getApplicationContext());
         recyclerView.setAdapter(mAdapter);
 
 
