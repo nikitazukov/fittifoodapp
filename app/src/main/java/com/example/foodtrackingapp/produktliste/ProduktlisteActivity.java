@@ -3,20 +3,14 @@ package com.example.foodtrackingapp.produktliste;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-
 import com.example.foodtrackingapp.db.FoodTrackingAppDbHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.View;
-
 import com.example.foodtrackingapp.R;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,9 +19,6 @@ public class ProduktlisteActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
-
-    private FoodTrackingAppDbHelper dbHelper;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +37,6 @@ public class ProduktlisteActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        dbHelper = new FoodTrackingAppDbHelper(this);
-
         List id = new ArrayList<Integer>();
         List produktname = new ArrayList<String>();
         List  protein = new ArrayList<Integer>();
@@ -55,7 +44,8 @@ public class ProduktlisteActivity extends AppCompatActivity {
         List fett = new ArrayList<Integer>();
         List kcal = new ArrayList<Integer>();
 
-        Cursor data = dbHelper.getAllProdukteFromProduktlise();
+        String query = "SELECT * FROM " + FoodTrackingAppDbHelper.FoodTrackingAppEntry.TABLE_PRODUKTLISTE;
+        Cursor data = FoodTrackingAppDbHelper.getAllProdukteFromProduktlise(query,getApplicationContext());
 
 
         while(data.moveToNext()) {

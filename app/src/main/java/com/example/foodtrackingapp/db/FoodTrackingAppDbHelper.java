@@ -7,20 +7,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import android.util.Log;
-import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class FoodTrackingAppDbHelper extends SQLiteOpenHelper {
 
     //vars
     private static final String LOG_TAG="FOODTRACKINGAPP";
 
-
     /* Inner class - definition aller tabelleninhalte */
     public static class FoodTrackingAppEntry implements BaseColumns {
-        private static final String TABLE_PRODUKTLISTE = "Produktliste";
+        public static final String TABLE_PRODUKTLISTE = "Produktliste";
         private static final String TABLE_PRODUKTE_PRO_TAG= "Produkte pro Tag";
         private static final String COL_NAME = "Produkt";
         private static final String COL_PROTEIN = "Protein";
@@ -84,7 +79,7 @@ public class FoodTrackingAppDbHelper extends SQLiteOpenHelper {
     }
 
 
-    public static void addPruduktToPruduktliste(String name, int protein, int kohlenhydrate, int fett, int kcal, Context context){
+    public static void addPruduktToPruduktliste(String name, int protein, int kohlenhydrate, int fett, int kcal,  Context context){
 
         FoodTrackingAppDbHelper dbHelper = new FoodTrackingAppDbHelper(context);
         // Gets the data repository in write mode
@@ -104,8 +99,10 @@ public class FoodTrackingAppDbHelper extends SQLiteOpenHelper {
         Log.i(LOG_TAG, values+"");
     }
 
-    public Cursor getAllProdukteFromProduktlise(){
-        SQLiteDatabase db = this.getReadableDatabase();
+    public static Cursor getAllProdukteFromProduktlise(String query, Context context){
+        FoodTrackingAppDbHelper dbHelper = new FoodTrackingAppDbHelper(context);
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
 
 // Define a projection that specifies which columns from the database
 // you will actually use after this query.
@@ -148,7 +145,8 @@ public class FoodTrackingAppDbHelper extends SQLiteOpenHelper {
             itemIds.add(itemId);
         }
 */
-        String query = "SELECT * FROM " + FoodTrackingAppEntry.TABLE_PRODUKTLISTE;
+       // String query = "SELECT * FROM " + FoodTrackingAppEntry.TABLE_PRODUKTLISTE;
+
         Cursor data = db.rawQuery(query, null);
 
         return data;
