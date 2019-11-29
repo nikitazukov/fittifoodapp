@@ -1,9 +1,9 @@
 package com.example.foodtrackingapp;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.foodtrackingapp.helperclasses.Date;
 import com.example.foodtrackingapp.produktliste.ProduktlisteActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -17,8 +17,6 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import static com.example.foodtrackingapp.db.FoodTrackingAppDbHelper.addPruduktToPruduktliste;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                Toast.makeText(MainActivity.this,"klick wurde ausgeführt" + HelperClass.getCurrentYear(),Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this,"klick wurde ausgeführt" + Date.getCurrentYear(),Toast.LENGTH_LONG).show();
 
             }
         });
@@ -58,7 +56,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //Toast.makeText(MainActivity.this,"Produkt wird hinzugefügt.",Toast.LENGTH_LONG).show();
 
-               addPruduktToPruduktliste("Nüsse", 60, 1, 1, 350, getApplicationContext());
+               //addPruduktToPruduktliste("Nüsse", 60, 1, 1, 350, getApplicationContext());
+                startActivity(new Intent(getApplicationContext(), ProduktlisteActivity.class));
 
             }
         });

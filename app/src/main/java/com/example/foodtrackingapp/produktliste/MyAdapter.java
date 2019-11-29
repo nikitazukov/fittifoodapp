@@ -1,10 +1,15 @@
 package com.example.foodtrackingapp.produktliste;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,6 +17,7 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodtrackingapp.R;
+import com.example.foodtrackingapp.helperclasses.AlertDialogNumber;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Arrays;
@@ -21,6 +27,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     private Object id[], name[], protein[], kohlenhydrate[], fett[], kcal[];
     private Context context;
+
+    //vars zum speichern der produkte für produkte pro tag db
+    private String str_name;
+    private int int_protein, int_kohlenhydrate, int_fett, int_kcal;
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
@@ -79,6 +89,21 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             }
         });
 
+        holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                str_name = String.valueOf(name[position]);
+                int_protein = Integer.parseInt(protein[position].toString());
+                int_kohlenhydrate = Integer.parseInt(kohlenhydrate[position].toString());
+                int_fett = Integer.parseInt(fett[position].toString());
+                int_kcal = Integer.parseInt(kcal[position].toString());
+
+                Log.i("Ü AN DEN ALERT DIALOG", ""+int_kohlenhydrate);
+                AlertDialogNumber aldn = new AlertDialogNumber(str_name, int_protein, int_kohlenhydrate, int_fett, int_kcal, context);
+                aldn.getDialog();
+            }
+        });
     }
 
     // Return the size of your dataset (invoked by the layout manager)

@@ -1,9 +1,9 @@
-package com.example.foodtrackingapp;
+package com.example.foodtrackingapp.helperclasses;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class HelperClass {
+public class Date {
 
     //get all forms of time
     private static Calendar calendar = new GregorianCalendar();

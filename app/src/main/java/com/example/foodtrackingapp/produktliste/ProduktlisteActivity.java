@@ -19,6 +19,7 @@ public class ProduktlisteActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
+    FoodTrackingAppDbHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,8 @@ public class ProduktlisteActivity extends AppCompatActivity {
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+        dbHelper= new FoodTrackingAppDbHelper(getApplicationContext());
+
 
         List id = new ArrayList<Integer>();
         List produktname = new ArrayList<String>();
@@ -45,8 +48,7 @@ public class ProduktlisteActivity extends AppCompatActivity {
         List kcal = new ArrayList<Integer>();
 
         String query = "SELECT * FROM " + FoodTrackingAppDbHelper.FoodTrackingAppEntry.TABLE_PRODUKTLISTE;
-        Cursor data = FoodTrackingAppDbHelper.getAllProdukteFromProduktlise(query,getApplicationContext());
-
+        Cursor data = dbHelper.getAllProdukteFromProduktlise(query);
 
         while(data.moveToNext()) {
             id.add(data.getInt(0));
@@ -67,7 +69,7 @@ public class ProduktlisteActivity extends AppCompatActivity {
 */
 
         // specify an adapter (see also next example)
-        mAdapter = new MyAdapter(id, produktname, protein, kohlenhydrate, fett, kcal, getApplicationContext());
+        mAdapter = new MyAdapter(id, produktname, protein, kohlenhydrate, fett, kcal, ProduktlisteActivity.this);
         recyclerView.setAdapter(mAdapter);
 
 
