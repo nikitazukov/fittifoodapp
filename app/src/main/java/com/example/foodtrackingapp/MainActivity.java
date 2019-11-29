@@ -1,8 +1,10 @@
 package com.example.foodtrackingapp;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 
+import com.example.foodtrackingapp.db.FoodTrackingAppDbHelper;
 import com.example.foodtrackingapp.helperclasses.Date;
 import com.example.foodtrackingapp.produktliste.ProduktlisteActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -67,6 +69,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this,"Produkt wird abgefragt!",Toast.LENGTH_LONG).show();
+                FoodTrackingAppDbHelper dbHelper = new FoodTrackingAppDbHelper(MainActivity.this);
+                Cursor data = dbHelper.getAllProdukteFromProdukte_Pro_Tag();
+
+
+               ///MUSS NOCH ANGEPASST WERDEM!!!!!!!!!
+                while (data.moveToNext()){
+                    outview.append(data.getString(1) + " - " +
+                            data.getString(2) + " - " +
+                            data.getString(3) + " - " +
+                            data.getString(4) + " - " +
+                            data.getString(5) + " - " +
+                            data.getString(6) + " - " +
+                            data.getString(7) + " - " +
+                            data.getString(8) + " - " +
+                            data.getString(9) + " - " +
+                            data.getString(10) );
+                }
 
             }
         });

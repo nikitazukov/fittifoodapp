@@ -10,6 +10,8 @@ import android.util.Log;
 
 import com.example.foodtrackingapp.helperclasses.Date;
 
+import java.sql.PreparedStatement;
+
 public class FoodTrackingAppDbHelper extends SQLiteOpenHelper {
 
     //vars
@@ -87,6 +89,8 @@ public class FoodTrackingAppDbHelper extends SQLiteOpenHelper {
         return anteilZuBerechnen*inputMenge/100;
     }
 
+
+    /*METHODS FOR PRODUCT PER DAY     */
     public static void addPruduktToPrudukteProTag(String name, int protein, int kohlenhydrate, int fett, int kcal, int inputMenge, Context context){
 
         FoodTrackingAppDbHelper dbHelper = new FoodTrackingAppDbHelper(context);
@@ -114,8 +118,63 @@ public class FoodTrackingAppDbHelper extends SQLiteOpenHelper {
         Log.i(LOG_TAG, values+"");
     }
 
-    /*METHODS FOR PRODUKTLISTE
-     */
+    public Cursor getAllProdukteFromProdukte_Pro_Tag(){
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+// Define a projection that specifies which columns from the database
+// you will actually use after this query.
+        String[] projection = {
+                BaseColumns._ID,
+                FoodTrackingAppEntry.COL_NAME,
+                FoodTrackingAppEntry.COL_PROTEIN,
+                FoodTrackingAppEntry.COL_KOHLENHYDRATE,
+                FoodTrackingAppEntry.COL_FETT,
+                FoodTrackingAppEntry.COL_KCAL,
+                FoodTrackingAppEntry.COL_YEAR,
+                FoodTrackingAppEntry.COL_MONTH,
+                FoodTrackingAppEntry.COL_DAY,
+                FoodTrackingAppEntry.COL_MINUTE
+        };
+
+/* Filter results WHERE "title" = 'My Title'
+        String selection = FoodTrackingAppEntry.COL_NAME + " = ?";
+        String[] selectionArgs = { "Quark" };
+*/
+
+        String selection = FoodTrackingAppEntry.COL_NAME + " = ?";
+        String[] selectionArgs = {};
+
+// How you want the results sorted in the resulting Cursor
+        String sortOrder =
+                FoodTrackingAppEntry.COL_NAME + " DESC";
+/*
+        Cursor cursor = db.query(
+                FoodTrackingAppEntry.TABLE_PRODUKTLISTE,   // The table to query
+                projection,             // The array of columns to return (pass null to get all)
+                selection,              // The columns for the WHERE clause
+               selectionArgs,          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,                   // don't filter by row groups
+                sortOrder               // The sort order
+        );
+
+     List itemIds = new ArrayList<>();
+        while(cursor.moveToNext()) {
+            long itemId = cursor.getLong(
+                    cursor.getColumnIndexOrThrow(FoodTrackingAppEntry._ID));
+
+            itemIds.add(itemId);
+        }
+*/
+        String query = "SELECT *  FROM "+FoodTrackingAppEntry.TABLE_PRODUKTE_PRO_TAG+" WHERE "+FoodTrackingAppEntry.COL_YEAR+" = "+Date.getCurrentYear();
+
+        Cursor data = db.rawQuery(query, null);
+
+        return data;
+    }
+
+    /*METHODS FOR PRODUKTLISTE */
     public static void addPruduktToPruduktliste(String name, int protein, int kohlenhydrate, int fett, int kcal,  Context context){
 
         FoodTrackingAppDbHelper dbHelper = new FoodTrackingAppDbHelper(context);
@@ -131,7 +190,7 @@ public class FoodTrackingAppDbHelper extends SQLiteOpenHelper {
         values.put(FoodTrackingAppEntry.COL_KCAL, kcal);
 
 // Insert the new row, returning the primary key value of the new row
-        long newRowId = db.insert(FoodTrackingAppEntry.TABLE_PRODUKTLISTE, null, values);
+        db.insert(FoodTrackingAppEntry.TABLE_PRODUKTLISTE, null, values);
 
         Log.i(LOG_TAG, values+"");
     }

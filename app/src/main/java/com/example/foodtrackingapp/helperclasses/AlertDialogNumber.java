@@ -47,7 +47,7 @@ public class AlertDialogNumber {
                     public void onClick(DialogInterface dialog,int id) {
 
                         int_inputMenge = Integer.parseInt(inputMenge.getText().toString());
-                    
+
                         Log.i("Ü IST: ", "" + kohlenhydrate);
                         FoodTrackingAppDbHelper.addPruduktToPrudukteProTag(name, protein, kohlenhydrate, fett,kcal, int_inputMenge, context);
 
