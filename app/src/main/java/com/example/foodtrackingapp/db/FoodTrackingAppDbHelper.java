@@ -20,14 +20,14 @@ public class FoodTrackingAppDbHelper extends SQLiteOpenHelper {
     /* Inner class - definition aller tabelleninhalte */
     public static class FoodTrackingAppEntry implements BaseColumns {
         public static final String TABLE_PRODUKTLISTE = "Produktliste";
-        private static final String TABLE_PRODUKTE_PRO_TAG= "Produkte_Pro_Tag";
+        public static final String TABLE_PRODUKTE_PRO_TAG= "Produkte_Pro_Tag";
         private static final String COL_NAME = "Produkt";
         private static final String COL_PROTEIN = "Protein";
         private static final String COL_KOHLENHYDRATE = "Kohlenhydrate";
         private static final String COL_FETT = "Fett";
         private static final String COL_KCAL = "Kcal";
         private static final String COL_MENGE = "Menge";
-        private static final String COL_YEAR = "Year";
+        public static final String COL_YEAR = "Year";
         private static final String COL_MONTH = "Month";
         private static final String COL_DAY = "Day";
         private static final String COL_HOUR = "Hour";
@@ -118,70 +118,13 @@ public class FoodTrackingAppDbHelper extends SQLiteOpenHelper {
         Log.i(LOG_TAG, values+"");
     }
 
-    public Cursor getAllProdukteFromProdukte_Pro_Tag(){
-
-        SQLiteDatabase db = this.getReadableDatabase();
-
-// Define a projection that specifies which columns from the database
-// you will actually use after this query.
-        String[] projection = {
-                BaseColumns._ID,
-                FoodTrackingAppEntry.COL_NAME,
-                FoodTrackingAppEntry.COL_PROTEIN,
-                FoodTrackingAppEntry.COL_KOHLENHYDRATE,
-                FoodTrackingAppEntry.COL_FETT,
-                FoodTrackingAppEntry.COL_KCAL,
-                FoodTrackingAppEntry.COL_YEAR,
-                FoodTrackingAppEntry.COL_MONTH,
-                FoodTrackingAppEntry.COL_DAY,
-                FoodTrackingAppEntry.COL_MINUTE
-        };
-
-/* Filter results WHERE "title" = 'My Title'
-        String selection = FoodTrackingAppEntry.COL_NAME + " = ?";
-        String[] selectionArgs = { "Quark" };
-*/
-
-        String selection = FoodTrackingAppEntry.COL_NAME + " = ?";
-        String[] selectionArgs = {};
-
-// How you want the results sorted in the resulting Cursor
-        String sortOrder =
-                FoodTrackingAppEntry.COL_NAME + " DESC";
-/*
-        Cursor cursor = db.query(
-                FoodTrackingAppEntry.TABLE_PRODUKTLISTE,   // The table to query
-                projection,             // The array of columns to return (pass null to get all)
-                selection,              // The columns for the WHERE clause
-               selectionArgs,          // The values for the WHERE clause
-                null,                   // don't group the rows
-                null,                   // don't filter by row groups
-                sortOrder               // The sort order
-        );
-
-     List itemIds = new ArrayList<>();
-        while(cursor.moveToNext()) {
-            long itemId = cursor.getLong(
-                    cursor.getColumnIndexOrThrow(FoodTrackingAppEntry._ID));
-
-            itemIds.add(itemId);
-        }
-*/
-        String query = "SELECT *  FROM "+FoodTrackingAppEntry.TABLE_PRODUKTE_PRO_TAG+" WHERE "+FoodTrackingAppEntry.COL_YEAR+" = "+Date.getCurrentYear();
-
-        Cursor data = db.rawQuery(query, null);
-
-        return data;
-    }
 
     /*METHODS FOR PRODUKTLISTE */
     public static void addPruduktToPruduktliste(String name, int protein, int kohlenhydrate, int fett, int kcal,  Context context){
 
         FoodTrackingAppDbHelper dbHelper = new FoodTrackingAppDbHelper(context);
-        // Gets the data repository in write mode
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-// Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
         values.put(FoodTrackingAppEntry.COL_NAME, name );
         values.put(FoodTrackingAppEntry.COL_PROTEIN, protein );
@@ -189,58 +132,14 @@ public class FoodTrackingAppDbHelper extends SQLiteOpenHelper {
         values.put(FoodTrackingAppEntry.COL_FETT, fett );
         values.put(FoodTrackingAppEntry.COL_KCAL, kcal);
 
-// Insert the new row, returning the primary key value of the new row
         db.insert(FoodTrackingAppEntry.TABLE_PRODUKTLISTE, null, values);
 
         Log.i(LOG_TAG, values+"");
     }
 
-    public Cursor getAllProdukteFromProduktlise(String query){
+    public Cursor getProdukte(String query){
 
         SQLiteDatabase db = this.getReadableDatabase();
-
-// Define a projection that specifies which columns from the database
-// you will actually use after this query.
-        String[] projection = {
-                BaseColumns._ID,
-                FoodTrackingAppEntry.COL_NAME,
-                FoodTrackingAppEntry.COL_PROTEIN,
-                FoodTrackingAppEntry.COL_KOHLENHYDRATE,
-                FoodTrackingAppEntry.COL_FETT,
-                FoodTrackingAppEntry.COL_KCAL
-        };
-
-/* Filter results WHERE "title" = 'My Title'
-        String selection = FoodTrackingAppEntry.COL_NAME + " = ?";
-        String[] selectionArgs = { "Quark" };
-*/
-
-        String selection = FoodTrackingAppEntry.COL_NAME + " = ?";
-        String[] selectionArgs = {};
-
-// How you want the results sorted in the resulting Cursor
-        String sortOrder =
-                FoodTrackingAppEntry.COL_NAME + " DESC";
-/*
-        Cursor cursor = db.query(
-                FoodTrackingAppEntry.TABLE_PRODUKTLISTE,   // The table to query
-                projection,             // The array of columns to return (pass null to get all)
-                selection,              // The columns for the WHERE clause
-               selectionArgs,          // The values for the WHERE clause
-                null,                   // don't group the rows
-                null,                   // don't filter by row groups
-                sortOrder               // The sort order
-        );
-
-     List itemIds = new ArrayList<>();
-        while(cursor.moveToNext()) {
-            long itemId = cursor.getLong(
-                    cursor.getColumnIndexOrThrow(FoodTrackingAppEntry._ID));
-
-            itemIds.add(itemId);
-        }
-*/
-       //String query = "SELECT * FROM " + FoodTrackingAppEntry.TABLE_PRODUKTLISTE;
         Cursor data = db.rawQuery(query, null);
 
         return data;

@@ -48,7 +48,7 @@ public class ProduktlisteActivity extends AppCompatActivity {
         List kcal = new ArrayList<Integer>();
 
         String query = "SELECT * FROM " + FoodTrackingAppDbHelper.FoodTrackingAppEntry.TABLE_PRODUKTLISTE;
-        Cursor data = dbHelper.getAllProdukteFromProduktlise(query);
+        Cursor data = dbHelper.getProdukte(query);
 
         while(data.moveToNext()) {
             id.add(data.getInt(0));

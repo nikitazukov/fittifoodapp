@@ -70,7 +70,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this,"Produkt wird abgefragt!",Toast.LENGTH_LONG).show();
                 FoodTrackingAppDbHelper dbHelper = new FoodTrackingAppDbHelper(MainActivity.this);
-                Cursor data = dbHelper.getAllProdukteFromProdukte_Pro_Tag();
+                String query = "SELECT *  FROM "+ FoodTrackingAppDbHelper.FoodTrackingAppEntry.TABLE_PRODUKTE_PRO_TAG+" WHERE "+ FoodTrackingAppDbHelper.FoodTrackingAppEntry.COL_YEAR+" = "+Date.getCurrentYear();
+                Cursor data = dbHelper.getProdukte(query);
 
 
                ///MUSS NOCH ANGEPASST WERDEM!!!!!!!!!
