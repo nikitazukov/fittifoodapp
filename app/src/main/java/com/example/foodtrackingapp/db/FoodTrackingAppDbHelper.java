@@ -21,17 +21,17 @@ public class FoodTrackingAppDbHelper extends SQLiteOpenHelper {
     public static class FoodTrackingAppEntry implements BaseColumns {
         public static final String TABLE_PRODUKTLISTE = "Produktliste";
         public static final String TABLE_PRODUKTE_PRO_TAG= "Produkte_Pro_Tag";
-        private static final String COL_NAME = "Produkt";
-        private static final String COL_PROTEIN = "Protein";
-        private static final String COL_KOHLENHYDRATE = "Kohlenhydrate";
-        private static final String COL_FETT = "Fett";
-        private static final String COL_KCAL = "Kcal";
-        private static final String COL_MENGE = "Menge";
+        public static final String COL_NAME = "Produkt";
+        public static final String COL_PROTEIN = "Protein";
+        public static final String COL_KOHLENHYDRATE = "Kohlenhydrate";
+        public static final String COL_FETT = "Fett";
+        public static final String COL_KCAL = "Kcal";
+        public static final String COL_MENGE = "Menge";
         public static final String COL_YEAR = "Year";
-        private static final String COL_MONTH = "Month";
-        private static final String COL_DAY = "Day";
-        private static final String COL_HOUR = "Hour";
-        private static final String COL_MINUTE ="Minute";
+        public static final String COL_MONTH = "Month";
+        public static final String COL_DAY = "Day";
+        public static final String COL_HOUR = "Hour";
+        public static final String COL_MINUTE ="Minute";
 
     }
 
@@ -48,8 +48,8 @@ public class FoodTrackingAppDbHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_TABLE_PRODUKTE_PRO_TAG =
             "CREATE TABLE " + FoodTrackingAppEntry.TABLE_PRODUKTE_PRO_TAG + " (" +
                     FoodTrackingAppEntry._ID + " INTEGER PRIMARY KEY," +
-                    FoodTrackingAppEntry.COL_MENGE + " INTEGER,"+
                     FoodTrackingAppEntry.COL_NAME + " TEXT," +
+                    FoodTrackingAppEntry.COL_MENGE + " INTEGER,"+
                     FoodTrackingAppEntry.COL_PROTEIN + " INTEGER," +
                     FoodTrackingAppEntry.COL_KOHLENHYDRATE + " INTEGER," +
                     FoodTrackingAppEntry.COL_FETT + " INTEGER," +
@@ -107,7 +107,7 @@ public class FoodTrackingAppDbHelper extends SQLiteOpenHelper {
         values.put(FoodTrackingAppEntry.COL_KCAL, getExakteMenge(kcal, inputMenge));
         values.put(FoodTrackingAppEntry.COL_YEAR, Date.getCurrentYear());
         values.put(FoodTrackingAppEntry.COL_MONTH, Date.getCurrentMonth());
-        values.put(FoodTrackingAppEntry.COL_DAY, Date.getCurrentDay());
+        values.put(FoodTrackingAppEntry.COL_DAY, 25);
         values.put(FoodTrackingAppEntry.COL_HOUR, Date.getCurrentHour());
         values.put(FoodTrackingAppEntry.COL_MINUTE, Date.getCurrentMinute());
 

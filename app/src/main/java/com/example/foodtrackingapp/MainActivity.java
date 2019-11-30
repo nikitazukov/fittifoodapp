@@ -13,6 +13,7 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,10 +21,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     private Button input, output, gotTo;
-    private TextView outview;
+    private TextView outview, outview2;
+    private int  protein, kohlenhydrate, fett, kcal, menge, jahr, monat, stunde, minute;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +41,8 @@ public class MainActivity extends AppCompatActivity {
         input = findViewById(R.id.button8);
         output = findViewById(R.id.button9);
         outview = (TextView)findViewById(R.id.textView);
+        outview2 = findViewById(R.id.textView2);
         gotTo = (Button)findViewById(R.id.button10);
-
-
-
 
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -68,25 +72,6 @@ public class MainActivity extends AppCompatActivity {
         output.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this,"Produkt wird abgefragt!",Toast.LENGTH_LONG).show();
-                FoodTrackingAppDbHelper dbHelper = new FoodTrackingAppDbHelper(MainActivity.this);
-                String query = "SELECT *  FROM "+ FoodTrackingAppDbHelper.FoodTrackingAppEntry.TABLE_PRODUKTE_PRO_TAG+" WHERE "+ FoodTrackingAppDbHelper.FoodTrackingAppEntry.COL_YEAR+" = "+Date.getCurrentYear();
-                Cursor data = dbHelper.getProdukte(query);
-
-
-               ///MUSS NOCH ANGEPASST WERDEM!!!!!!!!!
-                while (data.moveToNext()){
-                    outview.append(data.getString(1) + " - " +
-                            data.getString(2) + " - " +
-                            data.getString(3) + " - " +
-                            data.getString(4) + " - " +
-                            data.getString(5) + " - " +
-                            data.getString(6) + " - " +
-                            data.getString(7) + " - " +
-                            data.getString(8) + " - " +
-                            data.getString(9) + " - " +
-                            data.getString(10) );
-                }
 
             }
         });
@@ -99,6 +84,76 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        List produktname = new ArrayList<String>();
+        List  menge = new ArrayList<Integer>();
+        List  protein = new ArrayList<Integer>();
+        List kohlenhydrate = new ArrayList<Integer>();
+        List fett = new ArrayList<Integer>();
+        List kcal = new ArrayList<Integer>();
+        List year = new ArrayList<Integer>();
+        List month = new ArrayList<Integer>();
+        List day = new ArrayList<Integer>();
+        List hour = new ArrayList<Integer>();
+        List minute = new ArrayList<Integer>();
+
+        FoodTrackingAppDbHelper dbHelper = new FoodTrackingAppDbHelper(MainActivity.this);
+        String query = "SELECT *  FROM "+ FoodTrackingAppDbHelper.FoodTrackingAppEntry.TABLE_PRODUKTE_PRO_TAG+" WHERE "+ FoodTrackingAppDbHelper.FoodTrackingAppEntry.COL_YEAR+" = "+Date.getCurrentYear()+" AND "+FoodTrackingAppDbHelper.FoodTrackingAppEntry.COL_MONTH+" = "+Date.getCurrentMonth()+" AND "+FoodTrackingAppDbHelper.FoodTrackingAppEntry.COL_DAY+" = "+Date.getCurrentDay();
+        Cursor data = dbHelper.getProdukte(query);
+
+        ///MUSS NOCH ANGEPASST WERDEM!!!!!!!!!
+        while (data.moveToNext()){
+            produktname.add(data.getString(1));
+            menge.add(data.getInt(2));
+            protein.add(data.getInt(3));
+            kohlenhydrate.add(data.getInt(4));
+            fett.add(data.getInt(5));
+            kcal.add(data.getInt(6));
+            year.add(data.getInt(7));
+            month.add(data.getInt(8));
+            day.add(data.getInt(9));
+            hour.add(data.getInt(10));
+            minute.add(data.getInt(11));
+            Log.i("PRODUKTNAME : ", produktname+"");
+            this.menge+=data.getInt(2);
+            this.protein+=data.getInt(3);
+            this.kohlenhydrate+=data.getInt(4);
+            this.fett+=data.getInt(5);
+            this.kcal+=data.getInt(6);
+        }
+
+        outview.append("Tageskonsum : " +
+                        this.menge+ " - "+
+                        this.protein+" - "+
+                        this.kohlenhydrate+" - "+
+                        this.fett+" - "+
+                        this.kcal);
+
+        for (int i =0; i< produktname.size(); i++){
+            outview2.append("Datum : "+
+                            day.get(i)+"."+
+                            month.get(i)+"."+
+                            year.get(i)+" "+
+                            "Produkt : "+
+                            produktname.get(i)+" - "+
+                            menge.get(i)+" - "+
+                            protein.get(i)+" - "+
+                            kohlenhydrate.get(i)+" - "+
+                            fett.get(i)+" - "+
+                            kcal.get(i)+"\n");
+        }
+
+
+    }
+
+    public int getSumofList(List liste){
+        int summe=0;
+
+       for (int i=0; i < liste.size(); i++){
+
+           //summe+=liste.get(i);
+       }
+
+        return summe;
     }
 
     @Override
