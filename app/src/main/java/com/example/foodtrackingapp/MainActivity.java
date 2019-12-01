@@ -7,6 +7,11 @@ import android.os.Bundle;
 import com.example.foodtrackingapp.db.FoodTrackingAppDbHelper;
 import com.example.foodtrackingapp.helperclasses.Date;
 import com.example.foodtrackingapp.produktliste.ProduktlisteActivity;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -141,6 +146,36 @@ public class MainActivity extends AppCompatActivity {
                             fett.get(i)+" - "+
                             kcal.get(i)+"\n");
         }
+
+        //CHART
+
+        LineChart chart = findViewById(R.id.chart);
+
+        List<Entry> entries = new ArrayList<Entry>();
+        entries.add(new Entry(10,300));
+        entries.add(new Entry(16,100));
+        entries.add(new Entry(22,600));
+
+        List<Entry> entriesKohlenhydrate = new ArrayList<Entry>();
+        entriesKohlenhydrate.add(new Entry(10,600));
+        entriesKohlenhydrate.add(new Entry(16,800));
+        entriesKohlenhydrate.add(new Entry(22,100));
+
+        //Protein
+        LineDataSet dataSet = new LineDataSet(entries, "Protein"); // add entries to dataset
+        LineDataSet dataSetKohlenhydrate = new LineDataSet(entriesKohlenhydrate, "Kohlenhydrate"); // add entries to dataset
+
+
+        List<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+        dataSets.add(dataSet);
+        dataSets.add(dataSetKohlenhydrate);
+
+        LineData lineData = new LineData(dataSets);
+
+
+        chart.setData(lineData);
+
+        chart.invalidate(); // refresh
 
 
     }

@@ -3,11 +3,12 @@ package com.example.foodtrackingapp.helperclasses;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.text.InputType;
 import android.util.Log;
 import android.widget.EditText;
-import android.widget.Toast;
 
+import com.example.foodtrackingapp.MainActivity;
 import com.example.foodtrackingapp.db.FoodTrackingAppDbHelper;
 
 public class AlertDialogNumber {
@@ -50,6 +51,8 @@ public class AlertDialogNumber {
 
                         Log.i("Ü IST: ", "" + kohlenhydrate);
                         FoodTrackingAppDbHelper.addPruduktToPrudukteProTag(name, protein, kohlenhydrate, fett,kcal, int_inputMenge, context);
+
+
 
                     }
                 })

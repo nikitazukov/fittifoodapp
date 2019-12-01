@@ -107,7 +107,7 @@ public class FoodTrackingAppDbHelper extends SQLiteOpenHelper {
         values.put(FoodTrackingAppEntry.COL_KCAL, getExakteMenge(kcal, inputMenge));
         values.put(FoodTrackingAppEntry.COL_YEAR, Date.getCurrentYear());
         values.put(FoodTrackingAppEntry.COL_MONTH, Date.getCurrentMonth());
-        values.put(FoodTrackingAppEntry.COL_DAY, 25);
+        values.put(FoodTrackingAppEntry.COL_DAY, Date.getCurrentDay());
         values.put(FoodTrackingAppEntry.COL_HOUR, Date.getCurrentHour());
         values.put(FoodTrackingAppEntry.COL_MINUTE, Date.getCurrentMinute());
 
