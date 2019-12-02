@@ -5,26 +5,31 @@ import android.os.Bundle;
 
 import com.example.foodtrackingapp.MainActivity;
 import com.example.foodtrackingapp.db.FoodTrackingAppDbHelper;
+import com.example.foodtrackingapp.helperclasses.Flags;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.foodtrackingapp.R;
 
+
 public class InputActivity extends AppCompatActivity {
+
 
     //vars declaration
     private TextView tvName;
     private EditText etProtein, etKohlenhydrate, etFett, etKcal;
     private Button btnInput;
-    private int protein, kohlenhydrate, fett, kcal;
+    private int id, protein, kohlenhydrate, fett, kcal;
     private String name;
 
 
@@ -52,6 +57,22 @@ public class InputActivity extends AppCompatActivity {
             }
         });
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            id = extras.getInt(Flags.EDIT_PRODUCT_IN_PRODUCTLIST_ID);
+
+            tvName.setText(extras.getString(Flags.EDIT_PRODUCT_IN_PRODUCTLIST_NAME));
+            etProtein.setText(extras.getInt(Flags.EDIT_PRODUCT_IN_PRODUCTLIST_PROTEIN)+"");
+            etKohlenhydrate.setText(extras.getInt(Flags.EDIT_PRODUCT_IN_PRODUCTLIST_KOHLENHYDRATE)+"");
+            etFett.setText(extras.getInt(Flags.EDIT_PRODUCT_IN_PRODUCTLIST_FETT)+"");
+            etKcal.setText(extras.getInt(Flags.EDIT_PRODUCT_IN_PRODUCTLIST_KCAL)+"");
+        }
+
+
+        if (id!=0){
+            Log.i("AAA :", ""+id);
+        }
+
         btnInput.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,8 +83,22 @@ public class InputActivity extends AppCompatActivity {
                 fett = Integer.parseInt(etFett.getText().toString());
                 kcal = Integer.parseInt(etKcal.getText().toString());
 
-                FoodTrackingAppDbHelper.addPruduktToPruduktliste(name, protein, kohlenhydrate, fett, kcal, getApplicationContext());
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                if (id!=0){
+
+                    String query = " UPDATE "+FoodTrackingAppDbHelper.FoodTrackingAppEntry.TABLE_PRODUKTLISTE+
+                                    " SET "+FoodTrackingAppDbHelper.FoodTrackingAppEntry.COL_NAME+" = '"+name+"',"+
+                                            FoodTrackingAppDbHelper.FoodTrackingAppEntry.COL_PROTEIN+" = '"+protein+"',"+
+                                            FoodTrackingAppDbHelper.FoodTrackingAppEntry.COL_KOHLENHYDRATE+" = '"+kohlenhydrate+"',"+
+                                            FoodTrackingAppDbHelper.FoodTrackingAppEntry.COL_FETT+" = '"+fett+"',"+
+                                            FoodTrackingAppDbHelper.FoodTrackingAppEntry.COL_KCAL+" = '"+kcal+"'"+
+                                    " WHERE "+ FoodTrackingAppDbHelper.FoodTrackingAppEntry._ID+" = '"+id+"'";
+                    FoodTrackingAppDbHelper.updatePruduktofPruduktliste(query,InputActivity.this);
+                    startActivity(new Intent(InputActivity.this, ProduktlisteActivity.class));
+
+                }else {
+                    FoodTrackingAppDbHelper.addPruduktToPruduktliste(name, protein, kohlenhydrate, fett, kcal, getApplicationContext());
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                }
             }
         });
 

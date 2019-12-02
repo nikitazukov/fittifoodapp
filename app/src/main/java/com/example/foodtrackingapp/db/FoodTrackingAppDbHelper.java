@@ -120,6 +120,12 @@ public class FoodTrackingAppDbHelper extends SQLiteOpenHelper {
 
 
     /*METHODS FOR PRODUKTLISTE */
+    public static void updatePruduktofPruduktliste(String query, Context context){
+        FoodTrackingAppDbHelper dbHelper = new FoodTrackingAppDbHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.execSQL(query);
+    }
+
     public static void addPruduktToPruduktliste(String name, int protein, int kohlenhydrate, int fett, int kcal,  Context context){
 
         FoodTrackingAppDbHelper dbHelper = new FoodTrackingAppDbHelper(context);

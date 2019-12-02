@@ -3,6 +3,7 @@ package com.example.foodtrackingapp.produktliste;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodtrackingapp.R;
 import com.example.foodtrackingapp.helperclasses.AlertDialogNumber;
+import com.example.foodtrackingapp.helperclasses.Flags;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Arrays;
@@ -30,10 +32,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     //vars zum speichern der produkte für produkte pro tag db
     private String str_name;
-    private int int_protein, int_kohlenhydrate, int_fett, int_kcal;
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
+    private int int_id, int_protein, int_kohlenhydrate, int_fett, int_kcal;
+
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public TextView textView;
@@ -56,7 +57,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         this.protein = protein.toArray();
         this.kohlenhydrate = kohlenhydrate.toArray();
         this.fett = fett.toArray();
-        this. kcal = kcal.toArray();
+        this.kcal = kcal.toArray();
         this.context = context;
     }
 
@@ -85,7 +86,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,""+id[position], Toast.LENGTH_SHORT).show();
+
+                Intent editIntent = new Intent(context, InputActivity.class);
+                editIntent.putExtra(Flags.EDIT_PRODUCT_IN_PRODUCTLIST_ID, getInt_id(position));
+                editIntent.putExtra(Flags.EDIT_PRODUCT_IN_PRODUCTLIST_NAME, getStr_name(position));
+                editIntent.putExtra(Flags.EDIT_PRODUCT_IN_PRODUCTLIST_PROTEIN, getInt_protein(position));
+                editIntent.putExtra(Flags.EDIT_PRODUCT_IN_PRODUCTLIST_KOHLENHYDRATE, getInt_kohlenhydrate(position));
+                editIntent.putExtra(Flags.EDIT_PRODUCT_IN_PRODUCTLIST_FETT, getInt_fett(position));
+                editIntent.putExtra(Flags.EDIT_PRODUCT_IN_PRODUCTLIST_KCAL, getInt_kcal(position));
+                context.startActivity(editIntent);
             }
         });
 
@@ -93,14 +102,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             @Override
             public void onClick(View v) {
 
-                str_name = String.valueOf(name[position]);
-                int_protein = Integer.parseInt(protein[position].toString());
-                int_kohlenhydrate = Integer.parseInt(kohlenhydrate[position].toString());
-                int_fett = Integer.parseInt(fett[position].toString());
-                int_kcal = Integer.parseInt(kcal[position].toString());
-
-                Log.i("Ü AN DEN ALERT DIALOG", ""+int_kohlenhydrate);
-                AlertDialogNumber aldn = new AlertDialogNumber(str_name, int_protein, int_kohlenhydrate, int_fett, int_kcal, context);
+                AlertDialogNumber aldn = new AlertDialogNumber(getStr_name(position), getInt_protein(position), getInt_kohlenhydrate(position), getInt_fett(position), getInt_kcal(position), context);
                 aldn.getDialog();
             }
         });
@@ -110,5 +112,28 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     @Override
     public int getItemCount() {
         return id.length;
+    }
+
+    public int getInt_id(int position){
+        return int_id = Integer.parseInt(id[position].toString());
+    }
+
+    public String getStr_name(int position){
+        return str_name = String.valueOf(name[position]);
+    }
+
+    public int getInt_protein(int position){
+        return int_protein = Integer.parseInt(protein[position].toString());
+    }
+
+    public int getInt_kohlenhydrate(int position){
+        return int_kohlenhydrate = Integer.parseInt(kohlenhydrate[position].toString());
+    }
+
+    public int getInt_fett(int position){
+        return int_fett = Integer.parseInt(fett[position].toString());
+    }
+    public int getInt_kcal(int position){
+        return int_kcal = Integer.parseInt(kcal[position].toString());
     }
 }

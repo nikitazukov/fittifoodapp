@@ -212,5 +212,20 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+/*
+    @Override
+    public void onResume(){
+        super.onResume();
+        finish();
+        startActivity(getIntent());
+    }
+*/
+@Override
+public void onRestart()
+{
+    super.onRestart();
+    finish();
+    startActivity(getIntent());
+}
 
 }
